@@ -343,20 +343,6 @@ const ExamsView = () => {
 
   return (
     <div className="space-y-6">
-      {/* Eligibility Banner */}
-      <div className={`rounded-2xl p-6 text-white flex justify-between items-center ${isEligible ? 'bg-gradient-to-r from-green-500 to-emerald-600' : 'bg-gradient-to-r from-red-500 to-red-600'}`}>
-        <div>
-          <h2 className="text-2xl font-bold mb-1">{isEligible ? 'Eligible for Exams' : 'Attendance Warning'}</h2>
-          <p className="opacity-90 text-sm">
-            {isEligible
-              ? 'Your attendance is above 80%. You can register for upcoming exams.'
-              : 'Your attendance is below 80%. Please consult your class teacher immediately.'}
-          </p>
-        </div>
-        <div className="h-12 w-12 bg-white/20 rounded-full flex items-center justify-center">
-          {isEligible ? <CheckCircle size={24} /> : <AlertCircle size={24} />}
-        </div>
-      </div>
 
       <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
         <h3 className="font-bold text-slate-800 text-lg mb-4 flex items-center gap-2">
@@ -370,8 +356,8 @@ const ExamsView = () => {
                 <div className="flex items-center gap-2 mb-1">
                   <h4 className="font-bold text-slate-800">{exam.name}</h4>
                   <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold uppercase ${exam.status === 'REGISTERED' ? 'bg-green-100 text-green-700' :
-                      exam.status === 'COMPLETED' ? 'bg-slate-200 text-slate-600' :
-                        'bg-blue-100 text-blue-700'
+                    exam.status === 'COMPLETED' ? 'bg-slate-200 text-slate-600' :
+                      'bg-blue-100 text-blue-700'
                     }`}>
                     {exam.status.replace('_', ' ')}
                   </span>
