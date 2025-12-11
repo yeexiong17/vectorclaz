@@ -231,16 +231,6 @@ const ExamManagementView = () => (
         <GraduationCap size={24} className="text-primary-600" /> Exam Management & Seating
       </h2>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-        <div className="bg-primary-50 border border-primary-100 p-4 rounded-xl flex items-center justify-between">
-          <div>
-            <p className="text-primary-700 text-sm font-semibold">Total Students</p>
-            <h3 className="text-3xl font-bold text-primary-900">850</h3>
-          </div>
-          <FileCheck size={32} className="text-primary-300" />
-        </div>
-      </div>
-
       <div className="border border-slate-200 rounded-xl overflow-hidden">
         <div className="bg-slate-50 px-4 py-3 border-b border-slate-200 font-semibold text-slate-700">Upcoming Sessions</div>
         <div className="p-4 space-y-3">
