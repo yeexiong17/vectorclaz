@@ -1,10 +1,10 @@
 import React from 'react';
 import { 
   Users, AlertTriangle, TrendingUp, Search, Upload, 
-  CreditCard, MapPin, Monitor, GraduationCap, FileCheck, DollarSign
+  CreditCard, MapPin, Monitor, GraduationCap, FileCheck, DollarSign, Calendar
 } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, PieChart, Pie, CartesianGrid } from 'recharts';
-import { ADMIN_ANOMALIES, EXAM_ELIGIBILITY_DATA, ATTENDANCE_DATA, CANTEEN_AUDIT_DATA } from '../constants';
+import { ADMIN_ANOMALIES, EXAM_ELIGIBILITY_DATA, ATTENDANCE_DATA, CANTEEN_AUDIT_DATA, TEACHER_ATTENDANCE_STUDENTS } from '../constants';
 import { ViewState } from '../types';
 
 interface DashboardAdminProps {
@@ -141,27 +141,89 @@ const AdminOverview: React.FC<{ setView: (view: ViewState) => void }> = ({ setVi
   </div>
 );
 
-const StudentManagementView = () => (
-  <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 min-h-[600px]">
-    <div className="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
-      <h2 className="text-xl font-bold text-slate-800">Student Database</h2>
-      <div className="flex gap-2 w-full md:w-auto">
-        <div className="relative flex-1 md:w-64">
-           <Search size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
-           <input type="text" placeholder="Search ID or Name..." className="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 text-sm" />
+const StudentManagementView = () => {
+  const [search, setSearch] = React.useState('');
+  const filtered = React.useMemo(() => 
+    TEACHER_ATTENDANCE_STUDENTS.filter(s => 
+      s.name.toLowerCase().includes(search.toLowerCase()) ||
+      s.className.toLowerCase().includes(search.toLowerCase()) ||
+      s.id.toLowerCase().includes(search.toLowerCase())
+    ), [search]
+  );
+
+  return (
+    <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 min-h-[600px] space-y-5">
+      <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+        <h2 className="text-xl font-bold text-slate-800">Student Database</h2>
+        <div className="flex gap-2 w-full md:w-auto">
+          <div className="relative flex-1 md:w-64">
+            <Search size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+            <input
+              type="text"
+              placeholder="Search ID or Name..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 text-sm"
+            />
+          </div>
+          <button className="flex items-center gap-2 px-4 py-2 bg-slate-900 text-white rounded-lg text-sm font-medium hover:bg-slate-800">
+            <Upload size={16} /> Bulk Import
+          </button>
         </div>
-        <button className="flex items-center gap-2 px-4 py-2 bg-slate-900 text-white rounded-lg text-sm font-medium hover:bg-slate-800">
-          <Upload size={16} /> Bulk Import
-        </button>
+      </div>
+
+      <div className="border border-slate-100 rounded-xl overflow-hidden">
+        <table className="w-full text-sm text-left">
+          <thead className="bg-slate-50 text-slate-500">
+            <tr>
+              <th className="px-4 py-3 font-medium">Student</th>
+              <th className="px-4 py-3 font-medium">Class</th>
+              <th className="px-4 py-3 font-medium">Attendance</th>
+              <th className="px-4 py-3 font-medium text-center">Present</th>
+              <th className="px-4 py-3 font-medium text-center">Absent</th>
+              <th className="px-4 py-3 font-medium text-center">Late</th>
+              <th className="px-4 py-3 font-medium text-right">Last Seen</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-slate-100">
+            {filtered.map((s) => (
+              <tr key={s.id} className="hover:bg-slate-50/60">
+                <td className="px-4 py-3">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-lg overflow-hidden bg-slate-100 flex-shrink-0">
+                      <img src={s.photoUrl} alt={s.name} className="w-full h-full object-cover" />
+                    </div>
+                    <div>
+                      <p className="font-semibold text-slate-800">{s.name}</p>
+                      <p className="text-xs text-slate-400 font-mono">{s.id}</p>
+                    </div>
+                  </div>
+                </td>
+                <td className="px-4 py-3 text-slate-600">{s.className}</td>
+                <td className="px-4 py-3">
+                  <span className="px-2 py-1 rounded-full text-xs font-bold bg-green-50 text-green-700 border border-green-100">
+                    {s.attendanceRate}%
+                  </span>
+                </td>
+                <td className="px-4 py-3 text-center text-green-600 font-semibold">{s.present}</td>
+                <td className="px-4 py-3 text-center text-red-600 font-semibold">{s.absent}</td>
+                <td className="px-4 py-3 text-center text-amber-600 font-semibold">{s.late}</td>
+                <td className="px-4 py-3 text-right text-slate-500 text-xs">{s.lastSeen}</td>
+              </tr>
+            ))}
+            {filtered.length === 0 && (
+              <tr>
+                <td colSpan={7} className="px-4 py-6 text-center text-slate-400 text-sm">
+                  No students match your search.
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
       </div>
     </div>
-    
-    <div className="flex flex-col items-center justify-center h-64 text-slate-400 border-2 border-dashed border-slate-200 rounded-xl bg-slate-50">
-       <Users size={48} className="mb-4 opacity-50"/>
-       <p>Select a student to view detailed profile or perform actions.</p>
-    </div>
-  </div>
-);
+  );
+};
 
 const ExamManagementView = () => (
   <div className="space-y-6">
@@ -274,9 +336,145 @@ const FinancialView = () => (
   </div>
 );
 
+const AttendanceDetailsView = () => {
+  const [search, setSearch] = React.useState('');
+  const [selectedId, setSelectedId] = React.useState(TEACHER_ATTENDANCE_STUDENTS[0]?.id ?? '');
+
+  const filtered = React.useMemo(() => 
+    TEACHER_ATTENDANCE_STUDENTS.filter(s => 
+      s.name.toLowerCase().includes(search.toLowerCase()) ||
+      s.className.toLowerCase().includes(search.toLowerCase()) ||
+      s.id.toLowerCase().includes(search.toLowerCase())
+    ), [search]
+  );
+
+  const selected = React.useMemo(() => 
+    filtered.find(s => s.id === selectedId) || filtered[0],
+    [filtered, selectedId]
+  );
+
+  return (
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+      <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-4 lg:p-5 h-fit">
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="font-bold text-slate-800 flex items-center gap-2">
+            <Calendar size={18} className="text-primary-600" /> Students
+          </h3>
+          <span className="text-xs text-slate-400">{filtered.length} listed</span>
+        </div>
+        <div className="relative mb-4">
+          <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+          <input
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Search name, class, ID"
+            className="w-full pl-10 pr-3 py-2 text-sm bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
+          />
+        </div>
+        <div className="space-y-2 max-h-[520px] overflow-y-auto pr-1">
+          {filtered.map((student) => (
+            <button
+              key={student.id}
+              onClick={() => setSelectedId(student.id)}
+              className={`w-full flex items-center gap-3 p-3 rounded-xl border transition ${
+                selected?.id === student.id ? 'border-primary-200 bg-primary-50' : 'border-slate-100 hover:border-slate-200'
+              }`}
+            >
+              <div className="w-12 h-12 rounded-lg overflow-hidden bg-slate-100 flex-shrink-0">
+                <img src={student.photoUrl} alt={student.name} className="w-full h-full object-cover" />
+              </div>
+              <div className="flex-1 text-left">
+                <p className="font-semibold text-slate-800 text-sm">{student.name}</p>
+                <p className="text-xs text-slate-500">{student.className}</p>
+                <p className="text-[11px] text-slate-400 mt-1">Last seen: {student.lastSeen}</p>
+              </div>
+              <div className="text-right">
+                <p className="text-sm font-bold text-slate-800">{student.attendanceRate}%</p>
+                <p className="text-[11px] text-slate-500">attendance</p>
+              </div>
+            </button>
+          ))}
+          {filtered.length === 0 && (
+            <div className="text-center text-xs text-slate-400 py-8 border border-dashed border-slate-200 rounded-xl">
+              No students match your search.
+            </div>
+          )}
+        </div>
+      </div>
+
+      <div className="lg:col-span-2 bg-white rounded-2xl shadow-sm border border-slate-100 p-5">
+        {selected ? (
+          <div className="space-y-4">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+              <div className="flex items-center gap-3">
+                <div className="w-14 h-14 rounded-xl overflow-hidden bg-slate-100">
+                  <img src={selected.photoUrl} alt={selected.name} className="w-full h-full object-cover" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-bold text-slate-800">{selected.name}</h3>
+                  <p className="text-sm text-slate-500">{selected.id} • {selected.className}</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="px-3 py-1 rounded-full text-xs font-bold bg-green-100 text-green-700">{selected.attendanceRate}%</span>
+                <p className="text-xs text-slate-500">Attendance Rate</p>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-3 gap-3">
+              {[
+                { label: 'Present', value: selected.present, color: 'text-green-600', bg: 'bg-green-50' },
+                { label: 'Absent', value: selected.absent, color: 'text-red-600', bg: 'bg-red-50' },
+                { label: 'Late', value: selected.late, color: 'text-amber-600', bg: 'bg-amber-50' },
+              ].map((stat, idx) => (
+                <div key={idx} className={`p-3 rounded-xl border border-slate-100 ${stat.bg}`}>
+                  <p className="text-xs text-slate-500">{stat.label}</p>
+                  <p className={`text-xl font-bold ${stat.color}`}>{stat.value}</p>
+                  <p className="text-[11px] text-slate-400">Past 30 days</p>
+                </div>
+              ))}
+            </div>
+
+            <div className="border border-slate-100 rounded-xl overflow-hidden">
+              <div className="px-4 py-3 bg-slate-50 border-b border-slate-100 flex items-center justify-between">
+                <p className="font-semibold text-slate-800 text-sm">Recent Attendance (7 days)</p>
+                <p className="text-xs text-slate-500">Newest first</p>
+              </div>
+              <div className="divide-y divide-slate-100">
+                {selected.history.map((record) => (
+                  <div key={`${selected.id}-${record.date}`} className="flex items-center justify-between px-4 py-3 text-sm">
+                    <div>
+                      <p className="font-semibold text-slate-800">{record.date}</p>
+                      <p className="text-xs text-slate-500">
+                        {record.checkInTime ? `In ${record.checkInTime}` : '—'} · {record.checkOutTime ? `Out ${record.checkOutTime}` : '—'}
+                      </p>
+                    </div>
+                    <span className={`px-3 py-1 rounded-full text-xs font-bold ${
+                      record.status === 'PRESENT' ? 'bg-green-100 text-green-700' :
+                      record.status === 'LATE' ? 'bg-amber-100 text-amber-700' :
+                      'bg-red-100 text-red-700'
+                    }`}>
+                      {record.status}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div className="h-full flex items-center justify-center text-slate-400 text-sm">
+            Select a student to view attendance details.
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
 export const DashboardAdmin: React.FC<DashboardAdminProps> = ({ view, setView }) => {
   switch (view) {
     case 'ADMIN_STUDENTS': return <StudentManagementView />;
+    case 'ADMIN_ATTENDANCE': return <AttendanceDetailsView />;
     case 'ADMIN_EXAMS': return <ExamManagementView />;
     case 'ADMIN_FINANCE': return <FinancialView />;
     default: return <AdminOverview setView={setView} />;

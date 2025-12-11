@@ -2,7 +2,7 @@ import React from 'react';
 
 export enum UserRole {
   STUDENT = 'STUDENT',
-  ADMIN = 'ADMIN'
+  ADMIN = 'TEACHER'
 }
 
 export interface Badge {
@@ -58,4 +58,4 @@ export interface NavItem {
   icon: React.ReactNode;
 }
 
-export type ViewState = 'OVERVIEW' | 'ATTENDANCE' | 'EXAMS' | 'MEALS' | 'TRANSCRIPT' | 'ADMIN_STUDENTS' | 'ADMIN_EXAMS' | 'ADMIN_FINANCE';
+export type ViewState = 'OVERVIEW' | 'ATTENDANCE' | 'EXAMS' | 'MEALS' | 'TRANSCRIPT' | 'ADMIN_STUDENTS' | 'ADMIN_EXAMS' | 'ADMIN_FINANCE' | 'ADMIN_ATTENDANCE';

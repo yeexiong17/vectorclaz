@@ -1,7 +1,7 @@
 
 import { Student, Transaction, AttendanceRecord } from './types';
 
-export const CURRENT_STUDENT: Student & { 
+export const CURRENT_STUDENT: Student & {
   address: string;
   postcode: string;
   city: string;
@@ -15,7 +15,7 @@ export const CURRENT_STUDENT: Student & {
   icNumber: '060512-10-1234',
   schoolName: 'SMK Damansara Utama',
   className: '5 Inovasi',
-  photoUrl: 'https://picsum.photos/200/200',
+  photoUrl: 'https://img.freepik.com/premium-photo/passport-photo-portrait-young-man-white-background_1028938-330516.jpg?w=360',
   attendanceRate: 92,
   mealBalance: 18.50,
   subsidyStatus: 'FULL',
@@ -89,4 +89,98 @@ export const CANTEEN_AUDIT_DATA = [
   { name: 'Canteen A', sales: 4500, claims: 1200 },
   { name: 'Canteen B', sales: 3200, claims: 800 },
   { name: 'Co-op', sales: 1500, claims: 200 },
+];
+
+export const TEACHER_ATTENDANCE_STUDENTS: Array<{
+  id: string;
+  name: string;
+  className: string;
+  attendanceRate: number;
+  present: number;
+  absent: number;
+  late: number;
+  lastSeen: string;
+  photoUrl: string;
+  history: AttendanceRecord[];
+}> = [
+  {
+    id: 'STU-2024-001',
+    name: 'Ahmad bin Razak',
+    className: '5 Inovasi',
+    attendanceRate: 92,
+    present: 23,
+    absent: 1,
+    late: 1,
+    lastSeen: 'Today, 7:15 AM',
+    photoUrl: CURRENT_STUDENT.photoUrl,
+    history: [
+      { date: '2024-06-04', status: 'PRESENT', checkInTime: '07:15', checkOutTime: '13:30' },
+      { date: '2024-06-03', status: 'PRESENT', checkInTime: '07:14', checkOutTime: '13:30' },
+      { date: '2024-06-02', status: 'LATE', checkInTime: '07:45', checkOutTime: '13:20' },
+      { date: '2024-06-01', status: 'PRESENT', checkInTime: '07:12', checkOutTime: '13:30' },
+      { date: '2024-05-31', status: 'PRESENT', checkInTime: '07:13', checkOutTime: '13:30' },
+      { date: '2024-05-30', status: 'ABSENT' },
+      { date: '2024-05-29', status: 'PRESENT', checkInTime: '07:11', checkOutTime: '13:28' },
+    ],
+  },
+  {
+    id: 'STU-2024-002',
+    name: 'Siti Aminah',
+    className: '5 Alpha',
+    attendanceRate: 88,
+    present: 22,
+    absent: 2,
+    late: 1,
+    lastSeen: 'Yesterday, 7:18 AM',
+    photoUrl: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=400&q=80',
+    history: [
+      { date: '2024-06-04', status: 'PRESENT', checkInTime: '07:18', checkOutTime: '13:20' },
+      { date: '2024-06-03', status: 'ABSENT' },
+      { date: '2024-06-02', status: 'PRESENT', checkInTime: '07:16', checkOutTime: '13:25' },
+      { date: '2024-06-01', status: 'PRESENT', checkInTime: '07:15', checkOutTime: '13:24' },
+      { date: '2024-05-31', status: 'LATE', checkInTime: '07:48', checkOutTime: '13:10' },
+      { date: '2024-05-30', status: 'PRESENT', checkInTime: '07:12', checkOutTime: '13:26' },
+      { date: '2024-05-29', status: 'PRESENT', checkInTime: '07:14', checkOutTime: '13:22' },
+    ],
+  },
+  {
+    id: 'STU-2024-003',
+    name: 'Chong Wei',
+    className: '5 Beta',
+    attendanceRate: 96,
+    present: 24,
+    absent: 0,
+    late: 1,
+    lastSeen: 'Today, 7:10 AM',
+    photoUrl: 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=400&q=80',
+    history: [
+      { date: '2024-06-04', status: 'PRESENT', checkInTime: '07:10', checkOutTime: '13:30' },
+      { date: '2024-06-03', status: 'PRESENT', checkInTime: '07:09', checkOutTime: '13:30' },
+      { date: '2024-06-02', status: 'PRESENT', checkInTime: '07:08', checkOutTime: '13:28' },
+      { date: '2024-06-01', status: 'PRESENT', checkInTime: '07:12', checkOutTime: '13:27' },
+      { date: '2024-05-31', status: 'LATE', checkInTime: '07:41', checkOutTime: '13:18' },
+      { date: '2024-05-30', status: 'PRESENT', checkInTime: '07:11', checkOutTime: '13:29' },
+      { date: '2024-05-29', status: 'PRESENT', checkInTime: '07:13', checkOutTime: '13:25' },
+    ],
+  },
+  {
+    id: 'STU-2024-004',
+    name: 'Muthu Kumar',
+    className: '4 Gamma',
+    attendanceRate: 81,
+    present: 20,
+    absent: 3,
+    late: 2,
+    lastSeen: '2 days ago',
+    photoUrl: 'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?auto=format&fit=crop&w=400&q=80',
+    history: [
+      { date: '2024-06-04', status: 'ABSENT' },
+      { date: '2024-06-03', status: 'PRESENT', checkInTime: '07:28', checkOutTime: '13:15' },
+      { date: '2024-06-02', status: 'LATE', checkInTime: '07:52', checkOutTime: '13:12' },
+      { date: '2024-06-01', status: 'PRESENT', checkInTime: '07:25', checkOutTime: '13:18' },
+      { date: '2024-05-31', status: 'PRESENT', checkInTime: '07:23', checkOutTime: '13:16' },
+      { date: '2024-05-30', status: 'ABSENT' },
+      { date: '2024-05-29', status: 'PRESENT', checkInTime: '07:21', checkOutTime: '13:14' },
+    ],
+  },
 ];
