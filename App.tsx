@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import Layout from './components/Layout';
 import { DashboardStudent } from './components/DashboardStudent';
 import { DashboardAdmin } from './components/DashboardAdmin';
+import { DashboardParent } from './components/DashboardParent';
 import SmartAssistant from './components/SmartAssistant';
 import { UserRole, ViewState } from './types';
-import { Users, Shield } from 'lucide-react';
+import { Users, Shield, UserCheck } from 'lucide-react';
 
 const App: React.FC = () => {
   const [role, setRole] = useState<UserRole | null>(null);
@@ -66,6 +67,19 @@ const App: React.FC = () => {
               </button>
 
               <button
+                onClick={() => handleRoleSelect(UserRole.PARENT)}
+                className="w-full p-6 border-2 border-slate-100 rounded-2xl flex items-center gap-4 hover:border-green-500 hover:bg-green-50 transition-all group"
+              >
+                <div className="bg-green-100 text-green-600 p-3 rounded-full group-hover:bg-green-600 group-hover:text-white transition-colors">
+                  <UserCheck size={24} />
+                </div>
+                <div className="text-left">
+                  <h3 className="font-bold text-slate-800 text-lg">Parent</h3>
+                  <p className="text-slate-500 text-sm">View children's details & top up balance.</p>
+                </div>
+              </button>
+
+              <button
                 onClick={() => handleRoleSelect(UserRole.ADMIN)}
                 className="w-full p-6 border-2 border-slate-100 rounded-2xl flex items-center gap-4 hover:border-slate-800 hover:bg-slate-50 transition-all group"
               >
@@ -89,6 +103,8 @@ const App: React.FC = () => {
     <Layout role={role} currentView={view} setView={setView} onLogout={handleLogout}>
       {role === UserRole.STUDENT ? (
         <DashboardStudent view={view} setView={setView} />
+      ) : role === UserRole.PARENT ? (
+        <DashboardParent view={view} setView={setView} />
       ) : (
         <DashboardAdmin view={view} setView={setView} />
       )}

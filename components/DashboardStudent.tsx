@@ -417,12 +417,9 @@ const MealsView = () => (
           </span>
         ))}
       </div>
-      <div className="grid grid-cols-2 gap-4 mt-8">
-        <button className="py-3 bg-slate-100 text-slate-700 rounded-xl font-semibold hover:bg-slate-200 transition">
-          Auto-Reload
-        </button>
-        <button className="py-3 bg-primary-600 text-white rounded-xl font-semibold hover:bg-primary-700 transition shadow-lg shadow-primary-200">
-          Top Up Balance
+      <div className="mt-8">
+        <button className="w-full py-3 bg-slate-100 text-slate-700 rounded-xl font-semibold hover:bg-slate-200 transition">
+          Auto-Reload Settings
         </button>
       </div>
     </div>

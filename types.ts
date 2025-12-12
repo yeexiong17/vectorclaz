@@ -2,7 +2,8 @@ import React from 'react';
 
 export enum UserRole {
   STUDENT = 'STUDENT',
-  ADMIN = 'TEACHER'
+  ADMIN = 'TEACHER',
+  PARENT = 'PARENT'
 }
 
 export interface Badge {
@@ -52,10 +53,17 @@ export interface AttendanceRecord {
   checkOutTime?: string;
 }
 
+export interface Parent {
+  id: string;
+  name: string;
+  icNumber: string;
+  children: Student[];
+}
+
 export interface NavItem {
   id: string;
   label: string;
   icon: React.ReactNode;
 }
 
-export type ViewState = 'OVERVIEW' | 'ATTENDANCE' | 'EXAMS' | 'MEALS' | 'TRANSCRIPT' | 'ADMIN_STUDENTS' | 'ADMIN_EXAMS' | 'ADMIN_FINANCE' | 'ADMIN_ATTENDANCE';
+export type ViewState = 'OVERVIEW' | 'ATTENDANCE' | 'EXAMS' | 'MEALS' | 'TRANSCRIPT' | 'ADMIN_STUDENTS' | 'ADMIN_EXAMS' | 'ADMIN_FINANCE' | 'ADMIN_ATTENDANCE' | 'PARENT_CHILDREN' | 'PARENT_CHILD_DETAILS';

@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   Menu, X, LayoutDashboard, Calendar, Utensils, FileText,
-  Settings, LogOut, Users, ShieldAlert, BarChart3, GraduationCap
+  Settings, LogOut, Users, ShieldAlert, BarChart3, GraduationCap, UserCheck
 } from 'lucide-react';
 import { UserRole, ViewState, NavItem } from '../types';
 
@@ -32,7 +32,11 @@ const Layout: React.FC<LayoutProps> = ({ children, role, currentView, setView, o
     { id: 'ADMIN_FINANCE', label: 'Financials', icon: <CreditCardIcon size={20} /> },
   ];
 
-  const navItems = role === UserRole.STUDENT ? studentNav : adminNav;
+  const parentNav: NavItem[] = [
+    { id: 'OVERVIEW', label: 'My Children', icon: <UserCheck size={20} /> },
+  ];
+
+  const navItems = role === UserRole.STUDENT ? studentNav : role === UserRole.PARENT ? parentNav : adminNav;
 
   // Small helper icon since CreditCard imported in other files
   function CreditCardIcon({ size }: { size: number }) { return <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="14" x="2" y="5" rx="2" /><line x1="2" x2="22" y1="10" y2="10" /></svg> }
@@ -81,14 +85,16 @@ const Layout: React.FC<LayoutProps> = ({ children, role, currentView, setView, o
           <div className="bg-slate-50 p-3 rounded-xl flex items-center gap-3 mb-3">
             <div className="w-8 h-8 rounded-full bg-slate-200 overflow-hidden">
               {role === UserRole.STUDENT ? (
-                <img src={role === UserRole.STUDENT ? "https://picsum.photos/200/200" : "https://picsum.photos/100"} alt="User" className="w-full h-full object-cover" />
+                <img src="https://picsum.photos/200/200" alt="User" className="w-full h-full object-cover" />
+              ) : role === UserRole.PARENT ? (
+                <div className="w-full h-full flex items-center justify-center text-slate-500"><UserCheck size={14} /></div>
               ) : (
                 <div className="w-full h-full flex items-center justify-center text-slate-500"><Settings size={14} /></div>
               )}
             </div>
             <div className="overflow-hidden">
               <p className="text-sm font-bold truncate text-slate-800">
-                {role === UserRole.STUDENT ? 'Ahmad Razak' : 'Teacher 1'}
+                {role === UserRole.STUDENT ? 'Ahmad Razak' : role === UserRole.PARENT ? 'Razak Abdullah' : 'Teacher 1'}
               </p>
               <p className="text-xs text-slate-500 truncate capitalize">{role.toLowerCase()}</p>
             </div>

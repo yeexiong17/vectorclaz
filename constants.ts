@@ -1,5 +1,5 @@
 
-import { Student, Transaction, AttendanceRecord } from './types';
+import { Student, Transaction, AttendanceRecord, Parent } from './types';
 
 export const CURRENT_STUDENT: Student & {
   address: string;
@@ -184,3 +184,54 @@ export const TEACHER_ATTENDANCE_STUDENTS: Array<{
     ],
   },
 ];
+
+export const CURRENT_PARENT: Parent = {
+  id: 'PAR-2024-001',
+  name: 'Razak bin Abdullah',
+  icNumber: '700101-10-5678',
+  children: [
+    CURRENT_STUDENT,
+    {
+      id: 'STU-2024-002',
+      name: 'Siti Aminah binti Razak',
+      icNumber: '080815-10-2345',
+      schoolName: 'SMK Damansara Utama',
+      className: '5 Alpha',
+      photoUrl: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=400&q=80',
+      attendanceRate: 88,
+      mealBalance: 12.30,
+      subsidyStatus: 'FULL',
+      dietaryNeeds: ['HALAL'],
+      exams: [
+        {
+          id: 'EX-SPM-24-SITI',
+          name: 'SPM 2024',
+          date: '2024-11-05',
+          venue: 'Dewan Gemilang',
+          status: 'REGISTERED',
+          seatNumber: 'B-205'
+        },
+      ],
+      badges: [
+        { id: 'b1', name: 'Perfect Week', icon: '⭐', description: '100% Attendance this week', earnedDate: '2024-05-31' },
+      ]
+    },
+    {
+      id: 'STU-2024-005',
+      name: 'Hassan bin Razak',
+      icNumber: '100320-10-3456',
+      schoolName: 'SMK Damansara Utama',
+      className: '3 Beta',
+      photoUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80',
+      attendanceRate: 95,
+      mealBalance: 25.00,
+      subsidyStatus: 'PARTIAL',
+      dietaryNeeds: ['HALAL'],
+      exams: [],
+      badges: [
+        { id: 'b1', name: 'Perfect Month', icon: '🏆', description: '100% Attendance in May', earnedDate: '2024-05-31' },
+        { id: 'b2', name: 'Early Bird', icon: '🌅', description: 'Checked in before 7:15 AM for 5 days', earnedDate: '2024-04-12' },
+      ]
+    }
+  ]
+};
